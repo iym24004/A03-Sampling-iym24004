@@ -1,4 +1,4 @@
-# A03-Sampling-iym24004
+# A03: Sampling
 
 Assignment for OPIM 5512 (Dr. Dave Wanik, University of Connecticut).
 
@@ -17,9 +17,9 @@ California housing data (`california_housing_train.csv` from Colab's sample data
    - Majority undersampling (`RandomUnderSampler`)
    - Minority oversampling (`RandomOverSampler`)
    - SMOTE
-3. Trained a Decision Tree (`min_samples_split=10`) for each method and evaluated it on the test set with a classification report and confusion matrix.
+3. Trained a Decision Tree (`min_samples_split=10`) for each method and evaluated it on the test set with a confusion matrix and classification report.
 4. Compared the three methods.
-5. Repeated SMOTE 100 times with a different train/test split each time (`random_state = i`) to see how much the results change.
+5. Repeated SMOTE 100 times and then 1000 times, with a different train/test split each time (`random_state = i`), to see how much the results change.
 
 ## Results
 
@@ -33,13 +33,20 @@ California housing data (`california_housing_train.csv` from Colab's sample data
 - Undersampling had the highest recall but very low precision.
 - Oversampling had the highest accuracy but the lowest recall.
 
-**Repeated experiment (SMOTE, 100 runs):**
-- Average accuracy 0.891, precision 0.471, recall 0.721
-- Recall ranged from 0.658 to 0.785, so some splits did much better than others
-- One train/test split is not enough to judge a method, so it's better to look at the average over many runs
+## Repeated experiment (SMOTE)
+
+| Runs | Avg accuracy | Avg precision (class 0) | Avg recall (class 0) | Recall range   |
+|------|--------------|-------------------------|----------------------|----------------|
+| 100  | 0.891        | 0.471                   | 0.721                | 0.658 to 0.785 |
+| 1000 | 0.892        | 0.472                   | 0.721                | 0.640 to 0.817 |
+
+- Accuracy stayed very stable (about 0.89 in every run), while precision and recall changed more.
+- Recall changed the most. In the 1000 runs, the best split had recall of 0.817 and the worst had 0.640, even though only the split changed.
+- The averages for 100 and 1000 runs were almost the same, so the average is a reliable measure, but a single split can be quite lucky or unlucky.
+- One train/test split is not enough to judge a method, so it's better to look at the average over many runs.
 
 ## Tools
-Python, pandas, scikit-learn, imbalanced-learn, matplotlib, seaborn (run in Google Colab)
+Python, pandas, scikit-learn, imbalanced-learn, matplotlib (run in Google Colab)
 
 ## How to run
-Open `A03_SamplingxAI_5512.ipynb` in Google Colab and click **Runtime → Run all**. The dataset is already included in Colab's `sample_data` folder.
+Open `A03_SamplingxAI_5512.ipynb` in Google Colab and click **Runtime → Run all**. The dataset is already included in Colab's `sample_data` folder. The 1000-run cell takes a few minutes.
